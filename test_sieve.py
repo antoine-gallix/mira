@@ -26,14 +26,14 @@ def test__Sieve__call():
 
 def test__Sieve__negation():
     sieve = Sieve(is_even)
-    is_odd = sieve._not()
+    is_odd = -sieve
     assert is_odd(8) is False
     assert is_odd(9) is True
 
 
 def test__Sieve__negation_repr():
     sieve = Sieve(is_even)
-    is_odd = sieve._not()
+    is_odd = -sieve
     assert repr(is_odd) == "Sieve(not(is_even))"
 
 

@@ -40,7 +40,7 @@ class Sieve:
 
         return self.__class__(union, repr=f"{self._repr} | {sieve._repr}")
 
-    def _not(self):
+    def __neg__(self):
         def negated(x):
             return not (self._sieve(x))
 
