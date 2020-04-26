@@ -24,6 +24,19 @@ def test__Sieve__call():
     assert sieve(9) is False
 
 
+def test__Sieve__negation():
+    sieve = Sieve(is_even)
+    is_odd = sieve._not()
+    assert is_odd(8) is False
+    assert is_odd(9) is True
+
+
+def test__Sieve__negation_repr():
+    sieve = Sieve(is_even)
+    is_odd = sieve._not()
+    assert repr(is_odd) == "Sieve(not(is_even))"
+
+
 def test__Sieve__intersection():
     even_sieve = Sieve(is_even)
     positive_sieve = Sieve(is_positive)

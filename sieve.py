@@ -17,10 +17,10 @@ class Sieve:
     def __repr__(self):
         return f"{self.__class__.__name__}({self._repr})"
 
-    @staticmethod
-    def _ensure_sieve(func_of_sieve):
-        if not isinstance(sieve, self.__class__):
-            return self.__class__(func_of_sieve)
+    @classmethod
+    def _ensure_sieve(cls, func_of_sieve):
+        if not isinstance(func_of_sieve, cls):
+            return cls(func_of_sieve)
         else:
             return func_of_sieve
 
@@ -40,6 +40,12 @@ class Sieve:
 
         return self.__class__(union, repr=f"{self._repr} | {sieve._repr}")
 
+    def _not(self):
+        def negated(x):
+            return not (self._sieve(x))
+
+        return self.__class__(negated, f"not({self._repr})")
+
 
 def sieve(func):
     """Decorator to change functions into sieves"""
@@ -50,9 +56,7 @@ def sieve(func):
 # -----------------------utils------------------------
 
 
-@sieve
-def null_sieve(_):
-    return True
+null_sieve = Sieve(lambda _: True, "True")
 
 
 def is_instance(type_):
@@ -62,15 +66,3 @@ def is_instance(type_):
         return isinstance(thing, type_)
 
     return Sieve(filter_, f"is_instance({type_.__name__})")
-
-
-# -----------------------------------------------
-
-things = [1, "two"]
-
-ic(things)
-ic(null_sieve)
-ic(is_instance(int))
-ic(null_sieve & is_instance(int))
-ic(null_sieve | is_instance(int))
-ic(list(filter(null_sieve & is_instance(int), things)))
